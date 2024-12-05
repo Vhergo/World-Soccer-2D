@@ -1,0 +1,183 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6f78192cec1344d83a177ac5e6139ab3, type: 3}
+  m_Name: Settings
+  m_EditorClassIdentifier: 
+  TotalMessagesSubmitted: 0
+  TotalMessagesFailed: 0
+  DesignMessagesSubmitted: 0
+  DesignMessagesFailed: 0
+  QualityMessagesSubmitted: 0
+  QualityMessagesFailed: 0
+  ErrorMessagesSubmitted: 0
+  ErrorMessagesFailed: 0
+  BusinessMessagesSubmitted: 0
+  BusinessMessagesFailed: 0
+  UserMessagesSubmitted: 0
+  UserMessagesFailed: 0
+  CustomArea: 
+  gameKey:
+  - 3502b5f155e93dbdb722a8e5d0c50b77
+  secretKey:
+  - dc1b399f9694beaa5006cea6e4dfa84082da734c
+  Build:
+  - 0.1
+  SelectedPlatformStudio:
+  - Uforia
+  SelectedPlatformGame:
+  - World Soccer 2D
+  SelectedPlatformGameID: a1950000
+  SelectedStudio: 01000000
+  SelectedGame: 01000000
+  NewVersion: 4.0.4
+  Changes: '4.0.4
+
+    - fixes to android session handling
+
+    - added custom dimensions to design and error events
+
+    - fixes to sqlite db path for windows and linux platforms
+
+
+    4.0.3
+
+    - small uwp bug fix (uwp)
+
+
+    4.0.2
+
+    - small editor bug fixes for stop showing log warnings after calling initialize
+    function
+
+
+    4.0.1
+
+    - small update for wehn signing up in editor
+
+
+    4.0.0
+
+    - dumped major version to emphasize the need to use manual initialization of the
+    SDK now
+
+    - added log warnings to warn if the SDK has not been manually initialized before
+    sending events
+
+
+    3.11.3
+
+    - fixed session length bug
+
+    - fixed not allowing to send event when session is not started
+
+
+    3.11.2
+
+    - updated android google play libraries (android)
+
+
+    3.11.1
+
+    - various bug fixes in android native library (android)
+
+
+    3.11.0
+
+    - ui updated for sign up dialog
+
+    - PLEASE NOTE: initialization is now manual and not automatic anymore
+
+
+    3.10.5
+
+    - ''install'' field added to session start events when called for the first time
+    (android, ios)
+
+
+    3.10.4
+
+    - fixed javascript library (webgl)
+
+
+    3.10.3
+
+    - bug fix to webgl platform (webgl)
+
+
+    3.10.2
+
+    - Android manifest file fix for Android SDK Tools v26.0.2 (android)
+
+    - Send build number option fixed for Unity 5.6 and up (ios, android)
+
+    - Added stack traces for non-development builds
+
+
+    3.10.1
+
+    - Advanced option Send Player Settings Build changed to work without refreshing
+    the Settings object. Player Settings Build number is sent for iOS and identification
+    Version number for Android when option is used (Unity 5)'
+  SignUpOpen: 0
+  FirstName: 
+  LastName: 
+  StudioName: 
+  GameName: World Soccer 2D
+  PasswordConfirm: 
+  EmailOptIn: 1
+  EmailGA: Kuma@uforia.com
+  IntroScreen: 0
+  InfoLogEditor: 1
+  InfoLogBuild: 1
+  VerboseLogBuild: 0
+  UseManualSessionHandling: 0
+  SendExampleGameDataToMyGame: 0
+  InternetConnectivity: 0
+  CustomDimensions01: []
+  CustomDimensions02: []
+  CustomDimensions03: []
+  ResourceItemTypes: []
+  ResourceCurrencies: []
+  LastCreatedGamePlatform: -1
+  Platforms: 0b000000
+  CurrentInspectorState: 1
+  ClosedHints: 
+  DisplayHints: 0
+  DisplayHintsScrollState: {x: 0, y: 0}
+  Logo: {fileID: 2800000, guid: 98df8f9c5678a4e5d964caa1244e8958, type: 3}
+  UpdateIcon: {fileID: 2800000, guid: 810bbb19deed24f3cb7b854f9bafde26, type: 3}
+  InfoIcon: {fileID: 2800000, guid: 1b4dd779aadd54ac88856975af0d3c0a, type: 3}
+  DeleteIcon: {fileID: 2800000, guid: 85a626f1668244d30a4e9f616991a793, type: 3}
+  GameIcon: {fileID: 2800000, guid: a9ac7103fc40b4e00923bf8c2cb5d30f, type: 3}
+  HomeIcon: {fileID: 2800000, guid: fe7e2ecc9b2fe447bafe90f6395d4709, type: 3}
+  InstrumentIcon: {fileID: 2800000, guid: 2ba470b4dffd848c6b267c34770cc63e, type: 3}
+  QuestionIcon: {fileID: 2800000, guid: f8ea67e311b0c4b2ea05718e90fd3b5b, type: 3}
+  UserIcon: {fileID: 2800000, guid: f49ef75333ff247cfb5dad4dab0d4dac, type: 3}
+  AmazonIcon: {fileID: 0}
+  GooglePlayIcon: {fileID: 0}
+  iosIcon: {fileID: 0}
+  macIcon: {fileID: 0}
+  windowsPhoneIcon: {fileID: 0}
+  UseCustomId: 0
+  UsePlayerSettingsBundleVersion: 0
+  SubmitErrors: 1
+  MaxErrorCount: 10
+  SubmitFpsAverage: 1
+  SubmitFpsCritical: 1
+  IncludeGooglePlay: 1
+  FpsCriticalThreshold: 20
+  FpsCirticalSubmitInterval: 1
+  PlatformFoldOut: 01
+  CustomDimensions01FoldOut: 0
+  CustomDimensions02FoldOut: 0
+  CustomDimensions03FoldOut: 0
+  ResourceItemTypesFoldOut: 0
+  ResourceCurrenciesFoldOut: 0

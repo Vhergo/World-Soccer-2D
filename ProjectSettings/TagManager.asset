@@ -1,0 +1,53 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!78 &1
+TagManager:
+  serializedVersion: 2
+  tags:
+  - Ground
+  - GoalBlue
+  - GoalRed
+  - OOBRed
+  - OOBBlue
+  - Goal
+  - Player Out
+  layers:
+  - Default
+  - TransparentFX
+  - Ignore Raycast
+  - 
+  - Water
+  - UI
+  - 
+  - 
+  - Player1_Player
+  - Player2_Player
+  - Player1_GoalKeeper
+  - Player2_GoalKeeper
+  - UI LAYER NEW
+  - 
+  - Prize Machine Prizes1
+  - Prize Machine Prizes2
+  - Prize Machine Prizes3
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  m_SortingLayers:
+  - name: 12
+    uniqueID: 2737042453
+    locked: 0
+  - name: Default
+    uniqueID: 0
+    locked: 0
