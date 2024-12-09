@@ -4,7 +4,7 @@ using System.Collections;
 public delegate void EventHandler();
 public class GameController : MonoBehaviour {
 
-    public static GameController instance;
+    public static GameController Instance { get; private set; }
 
     #region VARIABLES
     public bool twoButtonControl;
@@ -23,23 +23,7 @@ public class GameController : MonoBehaviour {
     public GameObject menuEndessToggleButton;
     public int endScore;
     public int runeSpawnTime = 30;
-    public event EventHandler OnP1JumpPress;
-    public event EventHandler OnP1JumpRelease;
-
-    public event EventHandler OnP1JumpPress1;
-    public event EventHandler OnP1JumpRelease1;
-
-    public event EventHandler OnP2JumpPress;
-    public event EventHandler OnP2JumpRelease;
-
-    public event EventHandler OnP2JumpPress1;
-    public event EventHandler OnP2JumpRelease1;
-
-    public event EventHandler OnGameEnd;
-    public event EventHandler OnGameStart;
-    public event EventHandler OnNextRaund;
-
-    public event EventHandler OnFiveGoal;
+    
 
     public bool randomOutfits;
 
@@ -63,23 +47,10 @@ public class GameController : MonoBehaviour {
     public bool onExitingDialog;
     KeyCode keyCode = KeyCode.Escape;
 
-    public enum GameMode
-    {
-        OnePlayer, TwoPlayers, CpuVsCpu, OnePlayerPlatform, TwoPlayerPlatform, FourPlayer
-    }
-
-    public enum Player
-    {
-
-        Red, Blue
-    }
-
-    public Sprite[] Shoes;
-    public Sprite[] Thsirts;
-
     public GameObject uiDefaultBlueSkin;
     public GameObject uiDefaultRedSkin;
-
+    public Sprite[] Shoes;
+    public Sprite[] Thsirts;
     public SkinItem[] skins;
     public BallItem[] balls;
 
@@ -104,21 +75,62 @@ public class GameController : MonoBehaviour {
     public Transform platform;
     public Transform groundCollider;
 
+    private bool playersRedOut;
+    private bool playersRedGoalkeeperOut;
+    private bool playersBlueOut;
+    private bool playersBlueGoalkeeperOut;
+    private bool roundEnded;
+
+    private float slowMotionTime = 0.3f;
+
     bool mIgnoreUp = false;
     bool mIsInput = false;
     bool mPress = false;
     // Use this for initialization
     #endregion
 
+    #region ENUMS
+    public enum GameMode
+    {
+        OnePlayer, TwoPlayers, CpuVsCpu, OnePlayerPlatform, TwoPlayerPlatform, FourPlayer
+    }
+
+    public enum Player
+    {
+        Red, Blue
+    }
+    #endregion
+
+    #region EVENTS
+    public event EventHandler OnP1JumpPress;
+    public event EventHandler OnP1JumpRelease;
+
+    public event EventHandler OnP1JumpPress1;
+    public event EventHandler OnP1JumpRelease1;
+
+    public event EventHandler OnP2JumpPress;
+    public event EventHandler OnP2JumpRelease;
+
+    public event EventHandler OnP2JumpPress1;
+    public event EventHandler OnP2JumpRelease1;
+
+    public event EventHandler OnGameEnd;
+    public event EventHandler OnGameStart;
+    public event EventHandler OnNextRaund;
+
+    public event EventHandler OnFiveGoal;
+    #endregion
+
+
     private void Awake()
     {
-        Debug.Assert(instance == null);
-        instance = this;
+        if (Instance == null) Instance = this;
+        else Destroy(gameObject);
     }
 
     void Start()
     {
-        StartCoroutine(Initilation());
+        StartCoroutine(Initialization());
 
        if (PlayerPrefs.GetInt("isTodayMatchAvailable") == 0)
        {
@@ -127,6 +139,7 @@ public class GameController : MonoBehaviour {
        }
     }
 
+    #region GAME SETTING
     public void TwoButton(bool tbv)
     {
         twoButtonControl = tbv;
@@ -142,18 +155,18 @@ public class GameController : MonoBehaviour {
         else
         {
             isEndless = false;
-            endScore = 5;
         }
     }
-    // Update is called once per frame
+    #endregion
+
+
     void Update()
     {
-
         if (Input.GetKeyDown(keyCode) && isPaused && isPlaying)
         {
             if (!finished && Time.timeScale != 0.2f)
             {
-                rasume();
+                Resume();
                 GameObject.Find("PausePanel").GetComponent<TweenAlpha>().PlayReverse();
                 GameObject.Find("BlueJumpButton").GetComponent<TweenPosition>().PlayReverse();
                 GameObject.Find("RedJumpButton").GetComponent<TweenPosition>().PlayReverse();
@@ -167,7 +180,7 @@ public class GameController : MonoBehaviour {
         {
             if (!finished && Time.timeScale != 0.2f)
             {
-                pause();
+                Pause();
                 GameObject.Find("PausePanel").GetComponent<TweenAlpha>().PlayForward();
                 GameObject.Find("BlueJumpButton").GetComponent<TweenPosition>().PlayForward();
                 GameObject.Find("RedJumpButton").GetComponent<TweenPosition>().PlayForward();
@@ -184,19 +197,16 @@ public class GameController : MonoBehaviour {
         {
             onExitingDialog = true;
             GameObject.Find("ExitMenu").GetComponent<TweenAlpha>().PlayForward();
-            StartCoroutine(exitCounter());
+            StartCoroutine(ExitCounter());
         }
         else if (Input.GetKeyDown(keyCode) && onExitingDialog && !isPlaying)
         {
             Debug.Log("Quit Called");
             Application.Quit();
         }
-
-
-
     }
 
-    IEnumerator exitCounter()
+    IEnumerator ExitCounter()
     {
         GameObject.Find("ExitLabel").GetComponent<UILabel>().text = " Press Back Again \n(2)";
         yield return new WaitForSeconds(1);
@@ -208,62 +218,21 @@ public class GameController : MonoBehaviour {
 
     }
 
-    public void OnPlayer1JumpPress()
-    {
-        OnP1JumpPress.Invoke();
-    }
+    #region EVENT INVOCATION
+    public void OnPlayer1JumpPress() => OnP1JumpPress.Invoke();
+    public void OnPlayer1JumpRelease() => OnP1JumpRelease.Invoke();
+    public void OnPlayer1JumpPress1() => OnP1JumpPress1.Invoke();
+    public void OnPlayer1JumpRelease1() => OnP1JumpRelease1.Invoke();
+    void OnGameEndVoid() => OnGameEnd.Invoke();
+    void OnGameStartVoid() => OnGameStart.Invoke();
+    void OnNextRoundVoid() => OnNextRaund.Invoke();
+    public void OnPlayer2JumpPress() => OnP2JumpPress.Invoke();
+    public void OnPlayer2JumpRelease() => OnP2JumpRelease.Invoke();
+    public void OnPlayer2JumpPress1() => OnP2JumpPress1.Invoke();
+    public void OnPlayer2JumpRelease1() => OnP2JumpRelease1.Invoke();
+    #endregion
 
-    public void OnPlayer1JumpRelease()
-    {
-        OnP1JumpRelease.Invoke();
-    }
-
-    public void OnPlayer1JumpPress1()
-    {
-        OnP1JumpPress1.Invoke();
-    }
-
-    public void OnPlayer1JumpRelease1()
-    {
-        OnP1JumpRelease1.Invoke();
-    }
-
-    void OnGameEndVoid()
-    {
-        OnGameEnd.Invoke();
-
-    }
-
-    void OnGameStartVoid()
-    {
-        OnGameStart.Invoke();
-    }
-
-    void OnNextRoundVoid()
-    {
-        OnNextRaund.Invoke();
-    }
-
-    public void OnPlayer2JumpPress()
-    {
-        OnP2JumpPress.Invoke();
-    }
-
-    public void OnPlayer2JumpRelease()
-    {
-        OnP2JumpRelease.Invoke();
-    }
-
-    public void OnPlayer2JumpPress1()
-    {
-        OnP2JumpPress1.Invoke();
-    }
-
-    public void OnPlayer2JumpRelease1()
-    {
-        OnP2JumpRelease1.Invoke();
-    }
-
+    #region PLAYMODE SELECTION
     public void PlayOnePlayer()
     {
         inMatchCurrentTeamFlag.gameObject.SetActive(false);
@@ -296,7 +265,6 @@ public class GameController : MonoBehaviour {
 
         GoPlay();
     }
-
     public void PlayTwoPlayer()
     {
         gameMode = GameMode.TwoPlayers;
@@ -323,7 +291,6 @@ public class GameController : MonoBehaviour {
         ShowFourPlayerButtons(false);
         GoPlay();
     }
-
     public void PlayCpuVsCpuPlayer()
     {
         gameMode = GameMode.CpuVsCpu;
@@ -335,7 +302,6 @@ public class GameController : MonoBehaviour {
         ShowFourPlayerButtons(false);
         GoPlay();
     }
-
     public void PlayOnePlayerPlatform()
     {
         inMatchCurrentTeamFlag.gameObject.SetActive(false);
@@ -343,8 +309,7 @@ public class GameController : MonoBehaviour {
 
         gameMode = GameMode.OnePlayerPlatform;
 
-        if (twoButtonControl)
-        {
+        if (twoButtonControl) {
             GameObject.Find("BlueJumpButton1").GetComponent<TweenAlpha>().PlayReverse();
             GameObject.Find("RedJumpButton1").GetComponent<TweenAlpha>().PlayForward();
             GameObject.Find("BlueJumpButton1").GetComponent<TweenPosition>().from.x = GameObject.Find("RedJumpButton").GetComponent<TweenPosition>().from.x;
@@ -352,9 +317,7 @@ public class GameController : MonoBehaviour {
             GameObject.Find("BlueJumpButton1").GetComponent<UISprite>().leftAnchor.Set(0f, -GameObject.Find("BlueJumpButton").GetComponent<UISprite>().rightAnchor.absolute);
             GameObject.Find("BlueJumpButton1").GetComponent<UISprite>().rightAnchor.Set(0f, -GameObject.Find("BlueJumpButton").GetComponent<UISprite>().leftAnchor.absolute);
 
-        }
-        else
-        {
+        } else {
             GameObject.Find("BlueJumpButton1").GetComponent<TweenAlpha>().PlayForward();
             GameObject.Find("RedJumpButton1").GetComponent<TweenAlpha>().PlayForward();
 
@@ -367,18 +330,14 @@ public class GameController : MonoBehaviour {
 
         GoPlay();
     }
-
     public void PlayTwoPlayerPlatform()
     {
         gameMode = GameMode.TwoPlayerPlatform;
 
-        if (twoButtonControl)
-        {
+        if (twoButtonControl) {
             GameObject.Find("BlueJumpButton1").GetComponent<TweenAlpha>().PlayReverse();
             GameObject.Find("RedJumpButton1").GetComponent<TweenAlpha>().PlayReverse();
-        }
-        else
-        {
+        } else {
 
             GameObject.Find("BlueJumpButton1").GetComponent<TweenAlpha>().PlayForward();
             GameObject.Find("RedJumpButton1").GetComponent<TweenAlpha>().PlayForward();
@@ -395,7 +354,6 @@ public class GameController : MonoBehaviour {
 
         GoPlay();
     }
-
     public void PlayFourPlayer()
     {
         gameMode = GameMode.FourPlayer;
@@ -416,32 +374,30 @@ public class GameController : MonoBehaviour {
 
         GoPlay();
     }
-
     public void ShowFourPlayerButtons(bool state)
     {
-        if (state)
-        {
+        if (state) {
             GameObject.Find("BlueJumpButton2").GetComponent<TweenAlpha>().PlayReverse();
             GameObject.Find("RedJumpButton2").GetComponent<TweenAlpha>().PlayReverse();
             GameObject.Find("MenuButton").GetComponent<TweenAlpha>().PlayForward();
             GameObject.Find("MenuButton4Players").GetComponent<TweenAlpha>().PlayReverse();
-        }
-        else
-        {
+        } else {
             GameObject.Find("BlueJumpButton2").GetComponent<TweenAlpha>().PlayForward();
             GameObject.Find("RedJumpButton2").GetComponent<TweenAlpha>().PlayForward();
             GameObject.Find("MenuButton").GetComponent<TweenAlpha>().PlayReverse();
             GameObject.Find("MenuButton4Players").GetComponent<TweenAlpha>().PlayForward();
         }
     }
+    #endregion
 
-    public void pause()
+    #region SCENE CONTROL
+    public void Pause()
     {
         isPaused = true;
         Time.timeScale = 0;
     }
 
-    public void rasume()
+    public void Resume()
     {
         isPaused = false;
         Time.timeScale = 1.5f;
@@ -449,6 +405,7 @@ public class GameController : MonoBehaviour {
 
     public void GoPlay()
     {
+        Debug.Log("Go To Play!");
         isOnMenu = false;
         isPlaying = true;
         finished = false;
@@ -460,17 +417,9 @@ public class GameController : MonoBehaviour {
         OnGameStartVoid();
     }
 
-    void Show5Add()
-    {
-        if (GameHandler.PluginContainer.GetComponent<AppodealHandler>().enabled)
-        {
-            OnFiveGoal.Invoke();
-        }
-    }
-
     public void GoMenu()
     {
-        Debug.Log("normal cıkıs in game");
+        Debug.Log("Return To The Menu!");
         isPaused = false;
         isOnMenu = true;
         Screen.sleepTimeout = SleepTimeout.SystemSetting;
@@ -480,6 +429,7 @@ public class GameController : MonoBehaviour {
         totalGoal = 0;
         GameHandler.Score = "[ff0005]" + RedScore + "[-]-[00ffff]" + BlueScore + "[-]";
         Time.timeScale = 1.5f;
+
         DestroyImmediate(player1_GoalKeeper);
         DestroyImmediate(player2_GoalKeeper);
         DestroyImmediate(player1_Player);
@@ -487,14 +437,15 @@ public class GameController : MonoBehaviour {
         DestroyImmediate(player1_goal);
         DestroyImmediate(player2_goal);
         DestroyImmediate(ball);
+
         Rune.SetActive(false);
         StopCoroutine(Timer());
         OnGameEndVoid();
     }
 
-    public void GoMenuEndGame() // oyun sonu turn menu fonksiyonu
+    public void GoMenuEndGame()
     {
-        Debug.Log("normal cıkıs game end");
+        Debug.Log("End Game!");
         isPaused = false;
         isOnMenu = true;
         Screen.sleepTimeout = SleepTimeout.SystemSetting;
@@ -504,23 +455,25 @@ public class GameController : MonoBehaviour {
         totalGoal = 0;
         GameHandler.Score = "[ff0005]" + RedScore + "[-]-[00ffff]" + BlueScore + "[-]";
         Time.timeScale = 1.5f;
+
         DestroyImmediate(player1_GoalKeeper);
         DestroyImmediate(player2_GoalKeeper);
         DestroyImmediate(player1_Player);
         DestroyImmediate(player2_Player);
         DestroyImmediate(player1_goal);
         DestroyImmediate(player2_goal);
+
         DestroyImmediate(ball);
         Rune.SetActive(false);
         StopCoroutine(Timer());
         OnGameEndVoid();
-        
     }
+    #endregion
 
+    #region GAME EVENT
     public void Goal(Player player)
     {
-        if (player == Player.Red)
-        {
+        if (player == Player.Red) {
             ballRedOrBlue = true;
             BlueScore++;
             totalGoal++;
@@ -532,21 +485,16 @@ public class GameController : MonoBehaviour {
             GameObject.Find("BlueGoal").GetComponent<TweenPosition>().ResetToBeginning();
             GameObject.Find("BlueGoal").GetComponent<TweenPosition>().Toggle();
             GameHandler.Score = "[ff0005]" + RedScore + "[-]-[00ffff]" + BlueScore + "[-]";
-            if (BlueScore == endScore)
-                StartCoroutine(GameEnd(BlueWins));
+
+            if (BlueScore == endScore) StartCoroutine(GameEnd(BlueWins));
+
             GameHandler.Effect.PlayGoal();
-            BGAnimatorController.instance.Goal();
-            if (totalGoal % 7 == 0 && isEndless)
-            {
-                Show5Add();
-            }
-            // RewardmobHandler.instance.OnGoal();
+            BGAnimatorController.Instance.Goal();
 
             StartCoroutine(SlowMotionCourutine());
-
         }
-        if (player == Player.Blue)
-        {
+
+        if (player == Player.Blue) {
             ballRedOrBlue = false;
             RedScore++;
             totalGoal++;
@@ -557,14 +505,11 @@ public class GameController : MonoBehaviour {
             GameObject.Find("RedGoal").GetComponent<TweenPosition>().ResetToBeginning();
             GameObject.Find("RedGoal").GetComponent<TweenPosition>().Toggle();
             GameHandler.Score = "[ff0005]" + RedScore + "[-]-[00ffff]" + BlueScore + "[-]";
-            if (RedScore == endScore)
-                StartCoroutine(GameEnd(RedWins));
+
+            if (RedScore == endScore)  StartCoroutine(GameEnd(RedWins));
+
             GameHandler.Effect.PlayGoal();
-            BGAnimatorController.instance.Goal();
-            if (totalGoal % 7 == 0 && isEndless)
-            {
-                Show5Add();
-            }
+            BGAnimatorController.Instance.Goal();
 
             StartCoroutine(SlowMotionCourutine());
         }
@@ -572,96 +517,65 @@ public class GameController : MonoBehaviour {
 
     public void Out(Player player)
     {
-
-        if (player == Player.Red)
-        {
+        if (player == Player.Red) {
             ballRedOrBlue = true;
             GameObject.Find("Out").GetComponent<TweenPosition>().Toggle();
-
         }
-        if (player == Player.Blue)
-        {
+
+        if (player == Player.Blue) {
             ballRedOrBlue = false;
             GameObject.Find("Out").GetComponent<TweenPosition>().Toggle();
         }
     }
 
-    private bool playersRedOut;
-    private bool playersRedGoalkeeperOut;
-    private bool playersBlueOut;
-    private bool playersBlueGoalkeeperOut;
-    private bool roundEnded;
-
     public void PlayerOut(GameObject player)
     {
-        if(player == player1_Player)
-        {
-            playersRedOut = true;
-        }
+        if (player == player1_Player) playersRedOut = true;
+        if (player == player2_Player) playersBlueOut = true;
+        if (player == player1_GoalKeeper) playersRedGoalkeeperOut = true;
+        if (player == player2_GoalKeeper) playersBlueGoalkeeperOut = true;
 
-        if (player == player2_Player)
-        {
-            playersBlueOut = true;
-        }
-
-        if (player == player1_GoalKeeper)
-        {
-            playersRedGoalkeeperOut = true;
-        }
-
-        if (player == player2_GoalKeeper)
-        {
-            playersBlueGoalkeeperOut = true;
-        }
-
-
-        if (!roundEnded)
-        {
-            if (playersRedOut && playersRedGoalkeeperOut)
-            {
+        if (!roundEnded) {
+            if (playersRedOut && playersRedGoalkeeperOut) {
                 Goal(Player.Red);
                 roundEnded = true;
             }
 
-            if (playersBlueOut && playersBlueGoalkeeperOut)
-            {
+            if (playersBlueOut && playersBlueGoalkeeperOut) {
                 Goal(Player.Blue);
                 roundEnded = true;
             }
         }
     }
 
-    private float slowMotionTime = 0.3f;
-
-    IEnumerator SlowMotionCourutine()
+    public void RedGoalGetBig()
     {
-        yield return new WaitForSeconds(slowMotionTime); 
-        nextRound();
+        if (player1_goal) {
+            player1_goal.GetComponent<TweenScale>().PlayForward();
+            StartCoroutine(RedGoalGetSmall());
+            GameHandler.Effect.PlayBlueGoalExtend();
+        }
+    }
+    IEnumerator RedGoalGetSmall()
+    {
+        yield return new WaitForSeconds(10);
+        if (player1_goal)
+            player1_goal.GetComponent<TweenScale>().PlayReverse();
     }
 
-    public void nextRound()
+    public void BlueGoalGetBig()
     {
-        if (isPlaying)
-        {
-            if (!finished)
-            {
-
-                Time.timeScale = 1.5f;
-                resetObjects();
-
-                if (ballRedOrBlue)
-                {
-                    ball.transform.position = new Vector3(-2.3f, 4, 0);
-                }
-                if (!ballRedOrBlue)
-                {
-                    ball.transform.position = new Vector3(2.3f, 4, 0);
-                }
-                GameObject.Find("MenuButton").GetComponent<TweenPosition>().PlayReverse();
-                GameObject.Find("MenuButton4Players").GetComponent<TweenPosition>().PlayReverse();
-                OnNextRoundVoid();
-            }
+        if (player2_goal) {
+            player2_goal.GetComponent<TweenScale>().PlayForward();
+            StartCoroutine(BlueGoalGetSmall());
+            GameHandler.Effect.PlayBlueGoalExtend();
         }
+    }
+    IEnumerator BlueGoalGetSmall()
+    {
+        yield return new WaitForSeconds(10);
+        if (player2_goal)
+            player2_goal.GetComponent<TweenScale>().PlayReverse();
     }
 
     public void Rematch()
@@ -675,28 +589,23 @@ public class GameController : MonoBehaviour {
         RedScore = 0;
         GameHandler.Score = "[ff0005]" + RedScore + "[-]-[00ffff]" + BlueScore + "[-]";
         Time.timeScale = 1.5f;
-        resetObjects();
+        ResetObjects();
         ball.name = "Top";
 
-        if (ballRedOrBlue)
-        {
+        if (ballRedOrBlue) {
             ball.transform.position = new Vector3(-2.3f, 4, 0);
         }
-        if (!ballRedOrBlue)
-        {
+        if (!ballRedOrBlue) {
             ball.transform.position = new Vector3(2.3f, 4, 0);
         }
-        if (gameMode == GameMode.OnePlayer)
-        {
+        if (gameMode == GameMode.OnePlayer) {
             player1_Player.GetComponent<Jump>().isCpu = true;
             player1_GoalKeeper.GetComponent<Jump>().isCpu = true;
             player1_GoalKeeper.GetComponent<Jump>().pair = player1_Player;
-            player1_Player.GetComponent<Jump>().pair = player1_GoalKeeper;         
-            
+            player1_Player.GetComponent<Jump>().pair = player1_GoalKeeper;
         }
 
-        if (gameMode == GameMode.CpuVsCpu)
-        {
+        if (gameMode == GameMode.CpuVsCpu) {
             Screen.sleepTimeout = SleepTimeout.NeverSleep;
             player1_Player.GetComponent<Jump>().isCpu = true;
             player1_GoalKeeper.GetComponent<Jump>().isCpu = true;
@@ -710,7 +619,7 @@ public class GameController : MonoBehaviour {
         }
 
 
-        
+
         OnGameStartVoid();
     }
 
@@ -728,9 +637,6 @@ public class GameController : MonoBehaviour {
         GameObject.Find("MenuButton").GetComponent<TweenPosition>().PlayForward();
         GameObject.Find("MenuButton4Players").GetComponent<TweenPosition>().PlayForward();
         GameObject.Find("BlueGoal").GetComponent<TweenPosition>().tweenFactor = 1;
-
-        GameObject.Find("Coins Label").GetComponent<UILabel>().text = "10";
-        GameObject.Find("Coins Container").GetComponent<TweenAlpha>().PlayForward();
     }
 
     public void RedWins()
@@ -747,12 +653,37 @@ public class GameController : MonoBehaviour {
         GameObject.Find("MenuButton").GetComponent<TweenPosition>().PlayForward();
         GameObject.Find("MenuButton4Players").GetComponent<TweenPosition>().PlayForward();
         GameObject.Find("RedGoal").GetComponent<TweenPosition>().tweenFactor = 1;
-
-        GameObject.Find("Coins Label").GetComponent<UILabel>().text = BlueScore.ToString();
-        GameObject.Find("Coins Container").GetComponent<TweenAlpha>().PlayForward();
     }
 
-    IEnumerator Initilation()
+    #endregion
+
+    IEnumerator SlowMotionCourutine()
+    {
+        yield return new WaitForSeconds(slowMotionTime); 
+        NextRound();
+    }
+
+    public void NextRound()
+    {
+        if (isPlaying)
+        {
+            if (!finished)
+            {
+                Time.timeScale = 1.5f;
+                ResetObjects();
+
+                if (ballRedOrBlue) ball.transform.position = new Vector3(-2.3f, 4, 0);
+                if (!ballRedOrBlue) ball.transform.position = new Vector3(2.3f, 4, 0);
+
+                GameObject.Find("MenuButton").GetComponent<TweenPosition>().PlayReverse();
+                GameObject.Find("MenuButton4Players").GetComponent<TweenPosition>().PlayReverse();
+                OnNextRoundVoid();
+            }
+        }
+    }
+
+
+    IEnumerator Initialization()
     {
         yield return new WaitForSeconds(1);
         GameObject.Find("MenuButton").GetComponent<TweenPosition>().from.x = GameObject.Find("MenuButton").transform.localPosition.x;
@@ -772,36 +703,7 @@ public class GameController : MonoBehaviour {
         finished = true;
     }
 
-    public void RedGoalGetBig()
-    {
-        if (player1_goal)
-        {
-            player1_goal.GetComponent<TweenScale>().PlayForward();
-            StartCoroutine(RedGoalGetSmall());
-            GameHandler.Effect.PlayBlueGoalExtend();
-        }
-    }
-    IEnumerator RedGoalGetSmall()
-    {
-        yield return new WaitForSeconds(10);
-        if (player1_goal)
-        player1_goal.GetComponent<TweenScale>().PlayReverse();
-    }
-    public void BlueGoalGetBig()
-    {
-        if (player2_goal)
-        {
-            player2_goal.GetComponent<TweenScale>().PlayForward();
-            StartCoroutine(BlueGoalGetSmall());
-            GameHandler.Effect.PlayBlueGoalExtend();
-        }
-    }
-    IEnumerator BlueGoalGetSmall()
-    {
-        yield return new WaitForSeconds(10);
-        if (player2_goal)
-        player2_goal.GetComponent<TweenScale>().PlayReverse();
-    }
+    
 
     void SpawnObjects()
     {
@@ -809,7 +711,7 @@ public class GameController : MonoBehaviour {
 
         if (gameMode != GameMode.OnePlayerPlatform && gameMode != GameMode.TwoPlayerPlatform)
         {
-            ball = Instantiate(PlayerPurchaseManager.instance.GetBoughtBalls()[currentBall].ballPrefab);
+            ball = Instantiate(PlayerPurchaseManager.Instance.GetBoughtBalls()[currentBall].ballPrefab);
             ball.name = "Top";
             platform.gameObject.SetActive(false);
             groundCollider.gameObject.SetActive(true);
@@ -860,6 +762,7 @@ public class GameController : MonoBehaviour {
             randomShoes2 = BlueCurrentShoes;
             randomTshirts2 = BlueCurrentTshirt;
         }
+
         //Player1
         ///Player1_GoalKeeper
         ///
@@ -872,7 +775,7 @@ public class GameController : MonoBehaviour {
         }
         else
         {
-            player1_GoalKeeper = Instantiate(PlayerPurchaseManager.instance.GetBoughtSkins()[RedCurrentSkin].playerGoalkeeperPrefab) as GameObject;
+            player1_GoalKeeper = Instantiate(PlayerPurchaseManager.Instance.GetBoughtSkins()[RedCurrentSkin].playerGoalkeeperPrefab) as GameObject;
         }
 
         player1_GoalKeeper.GetComponent<Jump>().isGaolKeeperSkin = true;
@@ -884,8 +787,6 @@ public class GameController : MonoBehaviour {
         {
             player1_GoalKeeper.GetComponent<Jump>().twoButtonControl = true;
             player1_GoalKeeper.GetComponent<Jump>().isGoalKeeper = true;
-            //player1_GoalKeeper.GetComponent<Jump>().OnDestroy();
-            //player1_GoalKeeper.GetComponent<Jump>().OnEnable();
         }
 
         ///Player1_player
@@ -898,7 +799,7 @@ public class GameController : MonoBehaviour {
         }
         else
         {
-            player1_Player = Instantiate(PlayerPurchaseManager.instance.GetBoughtSkins()[RedCurrentSkin].playerPrefab) as GameObject;
+            player1_Player = Instantiate(PlayerPurchaseManager.Instance.GetBoughtSkins()[RedCurrentSkin].playerPrefab) as GameObject;
         }
 
         player1_Player.GetComponent<Jump>().player = Player.Red;
@@ -909,13 +810,10 @@ public class GameController : MonoBehaviour {
         {
             player1_Player.GetComponent<Jump>().twoButtonControl = true;
             player1_Player.GetComponent<Jump>().isGoalKeeper = false;
-            //player1_Player.GetComponent<Jump>().OnDestroy();
-            //player1_Player.GetComponent<Jump>().OnEnable();
         }
 
         //Player2
         ///Player2_Goalkeeper
-
 
         if (BlueCurrentSkin == 0)
         {
@@ -926,7 +824,7 @@ public class GameController : MonoBehaviour {
         }
         else
         {
-            player2_GoalKeeper = Instantiate(PlayerPurchaseManager.instance.GetBoughtSkins()[BlueCurrentSkin].playerGoalkeeperPrefab) as GameObject;
+            player2_GoalKeeper = Instantiate(PlayerPurchaseManager.Instance.GetBoughtSkins()[BlueCurrentSkin].playerGoalkeeperPrefab) as GameObject;
         }
 
         player1_GoalKeeper.GetComponent<Jump>().isGaolKeeperSkin = true;
@@ -938,8 +836,6 @@ public class GameController : MonoBehaviour {
         {
             player2_GoalKeeper.GetComponent<Jump>().twoButtonControl = true;
             player2_GoalKeeper.GetComponent<Jump>().isGoalKeeper = true;
-            //player2_GoalKeeper.GetComponent<Jump>().OnDestroy();
-            //player2_GoalKeeper.GetComponent<Jump>().OnEnable();
         }
         ///Player2_Player
 
@@ -952,19 +848,17 @@ public class GameController : MonoBehaviour {
         }
         else
         {
-            player2_Player = Instantiate(PlayerPurchaseManager.instance.GetBoughtSkins()[BlueCurrentSkin].playerPrefab) as GameObject;
+            player2_Player = Instantiate(PlayerPurchaseManager.Instance.GetBoughtSkins()[BlueCurrentSkin].playerPrefab) as GameObject;
         }
 
         player2_Player.GetComponent<Jump>().player = Player.Blue;
-
         player2_Player.transform.position = bluePlayerSpawn.position;
         player2_Player.SetLayer(player2Layer, true);
+
         if (twoButtonControl || gameMode == GameMode.FourPlayer)
         {
             player2_Player.GetComponent<Jump>().twoButtonControl = true;
             player2_Player.GetComponent<Jump>().isGoalKeeper = false;
-            //player2_Player.GetComponent<Jump>().OnDestroy();
-            //player2_Player.GetComponent<Jump>().OnEnable();
         }
 
         if (gameMode != GameMode.OnePlayerPlatform && gameMode != GameMode.TwoPlayerPlatform)
@@ -972,8 +866,6 @@ public class GameController : MonoBehaviour {
             player1_goal = Instantiate(Resources.Load("Prefabs/KaleRed")) as GameObject;
             player2_goal = Instantiate(Resources.Load("Prefabs/KaleBlue")) as GameObject;
         }
-
-
 
         if (gameMode == GameMode.OnePlayer || gameMode == GameMode.OnePlayerPlatform)
         {
@@ -998,10 +890,9 @@ public class GameController : MonoBehaviour {
             player2_GoalKeeper.GetComponent<Jump>().pair = player2_Player;
             player2_Player.GetComponent<Jump>().pair = player2_GoalKeeper;
         }
-
     }
 
-    void resetObjects()
+    void ResetObjects()
     {
         UICamera.selectedObject = null;
         playersRedOut = false;
@@ -1121,56 +1012,37 @@ public class GameController : MonoBehaviour {
             ball.GetComponent<BallScript>().resetBall();
     }
 
-    public void SetBlueShoes(int shoes)
-    {
-        BlueCurrentShoes = shoes;
-    }
+    #region SET OUTFITS
+    public void SetBlueShoes(int shoes) => BlueCurrentShoes = shoes;
+    public void SetBlueTshirts(int tshirt) => BlueCurrentTshirt = tshirt;
+    public void SetBlueSkin(int intSkin) => BlueCurrentSkin = intSkin;
 
-    public void SetBlueTshirts(int tshirt)
-    {
-        BlueCurrentTshirt = tshirt;
-    }
-
-    public void SetBlueSkin(int intSkin)
-    {
-        BlueCurrentSkin = intSkin;
-    }
-
-    public void SetRedShoes(int shoes)
-    {
-        RedCurrentShoes = shoes;
-    }
-
-    public void SetRedTshirts(int tshirt)
-    {
-        RedCurrentTshirt = tshirt;
-    }
-
-    public void SetRedSkin(int intSkin)
-    {
-        RedCurrentSkin = intSkin;
-    }
+    public void SetRedShoes(int shoes) => RedCurrentShoes = shoes;
+    public void SetRedTshirts(int tshirt) => RedCurrentTshirt = tshirt;
+    public void SetRedSkin(int intSkin) => RedCurrentSkin = intSkin;
+    #endregion
 
     IEnumerator Timer()
     {
         yield return new WaitForSeconds(1.5f);
 
-        if (Time.timeScale != 0.2f)
-            runeSpawnTime--;
+        if (Time.timeScale != 0.2f) runeSpawnTime--;
 
-       // GameHandler.RuneCounter(runeSpawnTime);
         if (runeSpawnTime == 0)
         {
             GameHandler.Effect.PlayRunespawn();
             runeSpawnTime = 30;
             Rune.SetActive(true);
         }
+
         StartCoroutine("Timer");
+
         if (!isPlaying)
         {
             runeSpawnTime = 30;
             StopCoroutine("Timer");
         }
+
         if (isOnMenu)
         {
             runeSpawnTime = 30;

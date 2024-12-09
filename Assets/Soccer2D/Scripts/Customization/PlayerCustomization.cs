@@ -26,7 +26,7 @@ public class PlayerCustomization : MonoBehaviour {
     {
         SetSkin();
 
-        PlayerPurchaseManager.instance.onBoughtNewItem += () =>
+        PlayerPurchaseManager.Instance.onBoughtNewItem += () =>
         {
             if (currentSkin != 0)
                 SetSkin();
@@ -65,7 +65,7 @@ public class PlayerCustomization : MonoBehaviour {
         }
         else
         {
-            currentSkinTranform = Instantiate(PlayerPurchaseManager.instance.GetBoughtSkins()[currentSkin].uiItem, transform).transform;
+            currentSkinTranform = Instantiate(PlayerPurchaseManager.Instance.GetBoughtSkins()[currentSkin].uiItem, transform).transform;
         }
 
         currentSkinTranform.localPosition = Vector2.zero;
@@ -93,7 +93,7 @@ public class PlayerCustomization : MonoBehaviour {
     public void NextSkin()
     {
         currentSkin++;
-        if (currentSkin > PlayerPurchaseManager.instance.GetBoughtSkins().Count - 1)
+        if (currentSkin > PlayerPurchaseManager.Instance.GetBoughtSkins().Count - 1)
         {
             currentSkin = 0;
         }
@@ -107,7 +107,7 @@ public class PlayerCustomization : MonoBehaviour {
         currentSkin--;
         if (currentSkin < 0)
         {
-            currentSkin = PlayerPurchaseManager.instance.GetBoughtSkins().Count - 1;
+            currentSkin = PlayerPurchaseManager.Instance.GetBoughtSkins().Count - 1;
         }
         CurrentShirt = GameHandler.GameController.Thsirts.Length - 1;
         CurrentShoes = GameHandler.GameController.Shoes.Length - 1;
@@ -125,7 +125,7 @@ public class PlayerCustomization : MonoBehaviour {
         CurrentShirt++;
         if (CurrentShirt > GameHandler.GameController.Thsirts.Length - 1)
         {
-            if (PlayerPurchaseManager.instance.GetBoughtSkins().Count > 1)
+            if (PlayerPurchaseManager.Instance.GetBoughtSkins().Count > 1)
             {
                 CurrentShirt = GameHandler.GameController.Thsirts.Length - 1;
                 NextSkin();
@@ -151,7 +151,7 @@ public class PlayerCustomization : MonoBehaviour {
         CurrentShirt--;
         if (CurrentShirt < 0)
         {
-            if (PlayerPurchaseManager.instance.GetBoughtSkins().Count > 1)
+            if (PlayerPurchaseManager.Instance.GetBoughtSkins().Count > 1)
             {
                 CurrentShirt = 0;
                 PreviousSkin();
@@ -175,7 +175,7 @@ public class PlayerCustomization : MonoBehaviour {
         CurrentShoes++;
         if (CurrentShoes > GameHandler.GameController.Shoes.Length - 1)
         {
-            if (PlayerPurchaseManager.instance.GetBoughtSkins().Count > 1)
+            if (PlayerPurchaseManager.Instance.GetBoughtSkins().Count > 1)
             {
                 CurrentShoes = GameHandler.GameController.Shoes.Length - 1;
                 NextSkin();
@@ -202,7 +202,7 @@ public class PlayerCustomization : MonoBehaviour {
         CurrentShoes--;
         if (CurrentShoes < 0)
         {
-            if (PlayerPurchaseManager.instance.GetBoughtSkins().Count > 1)
+            if (PlayerPurchaseManager.Instance.GetBoughtSkins().Count > 1)
             {
                 CurrentShoes = 0;
                 PreviousSkin();

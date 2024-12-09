@@ -13,7 +13,7 @@ public class BallCustomization : MonoBehaviour {
     {
         SetBall();
 
-        PlayerPurchaseManager.instance.onBoughtNewItem += () =>
+        PlayerPurchaseManager.Instance.onBoughtNewItem += () =>
         {
             if (currentBall != 0)
                 SetBall();
@@ -27,7 +27,7 @@ public class BallCustomization : MonoBehaviour {
         if (currentBallTransform != null)
             Destroy(currentBallTransform.gameObject);
 
-        currentBallTransform = Instantiate(PlayerPurchaseManager.instance.GetBoughtBalls()[currentBall].uiItem, transform).transform;
+        currentBallTransform = Instantiate(PlayerPurchaseManager.Instance.GetBoughtBalls()[currentBall].uiItem, transform).transform;
 
         currentBallTransform.localPosition = Vector2.zero;
     }
@@ -35,7 +35,7 @@ public class BallCustomization : MonoBehaviour {
     public void NextBall()
     {
         currentBall++;
-        if (currentBall > PlayerPurchaseManager.instance.GetBoughtBalls().Count - 1)
+        if (currentBall > PlayerPurchaseManager.Instance.GetBoughtBalls().Count - 1)
         {
             currentBall = 0;
         }
@@ -47,7 +47,7 @@ public class BallCustomization : MonoBehaviour {
         currentBall--;
         if (currentBall < 0)
         {
-            currentBall = PlayerPurchaseManager.instance.GetBoughtBalls().Count - 1;
+            currentBall = PlayerPurchaseManager.Instance.GetBoughtBalls().Count - 1;
         }
         SetBall();
     }

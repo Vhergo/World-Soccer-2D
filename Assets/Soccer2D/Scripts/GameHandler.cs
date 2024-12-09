@@ -38,7 +38,7 @@ public class GameHandler {
     {
         get
         {
-            return GameController.instance;
+            return GameController.Instance;
         }
     }
 

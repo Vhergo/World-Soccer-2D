@@ -7,20 +7,21 @@ public class CoinsDsiplayer : MonoBehaviour {
 
     private UILabel label;
 	// Use this for initialization
-	void Start () {
+	void Start () 
+    {
         label = GetComponent<UILabel>();
-        label.text = PlayerPurchaseManager.instance.coinsAmount.ToString();
+        label.text = PlayerPurchaseManager.Instance.coinsAmount.ToString();
 
-        PlayerPurchaseManager.instance.onCoinsAmountChange += OnCoinsAmountChange;
+        PlayerPurchaseManager.Instance.onCoinsAmountChange += OnCoinsAmountChange;
     }
 
     private void OnDestroy()
     {
-        PlayerPurchaseManager.instance.onCoinsAmountChange -= OnCoinsAmountChange;
+        PlayerPurchaseManager.Instance.onCoinsAmountChange -= OnCoinsAmountChange;
     }
 
     void OnCoinsAmountChange()
     {
-        label.text = PlayerPurchaseManager.instance.coinsAmount.ToString();
+        label.text = PlayerPurchaseManager.Instance.coinsAmount.ToString();
     }
 }

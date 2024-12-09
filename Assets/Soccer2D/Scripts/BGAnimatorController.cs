@@ -4,14 +4,18 @@ using UnityEngine;
 
 public class BGAnimatorController : MonoBehaviour {
 
-    public static BGAnimatorController instance;
+    public static BGAnimatorController Instance;
 
     private Animator animator;
 
-	 void Start () {
-        Debug.Assert(instance == null);
-        instance = this;
+    private void Awake()
+    {
+        if (Instance == null) Instance = this;
+        else Destroy(gameObject);
+    }
 
+    void Start () 
+    {
         animator = GetComponent<Animator>();
     }
 

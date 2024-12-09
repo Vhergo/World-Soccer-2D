@@ -6,7 +6,7 @@ using UnityEngine;
 public class PlayerPurchaseManager : MonoBehaviour
 {
     List<string> boughtItems = new List<string>();
-    public static PlayerPurchaseManager instance;
+    public static PlayerPurchaseManager Instance;
 
     private static string coinsAmountValue = "coinsAmount";
     private static string boughtItemsField = "boughtItems";
@@ -77,8 +77,8 @@ public class PlayerPurchaseManager : MonoBehaviour
 
     void Awake()
     {
-        Debug.Assert(instance == null);
-        instance = this;
+        Debug.Assert(Instance == null);
+        Instance = this;
 
         ZPlayerPrefs.Initialize("UforiaWorldSoccer2D_481220687124797", "salt12issalt");
 
@@ -174,7 +174,7 @@ public class PlayerPurchaseManager : MonoBehaviour
 
     public List<SkinItem> GetBoughtSkins()
     {
-        List<SkinItem> skinItems = new List<SkinItem>(GameController.instance.skins);
+        List<SkinItem> skinItems = new List<SkinItem>(GameController.Instance.skins);
         List<SkinItem> boughtSkinItems = new List<SkinItem>();
         boughtSkinItems = skinItems.FindAll(new Predicate<SkinItem>((skinItem) =>
         {
@@ -187,7 +187,7 @@ public class PlayerPurchaseManager : MonoBehaviour
 
     public SkinItem GetSkinItem(PurchasableItemsForCoins item)
     {
-        List<SkinItem> skinItems = new List<SkinItem>(GameController.instance.skins);
+        List<SkinItem> skinItems = new List<SkinItem>(GameController.Instance.skins);
         return skinItems.Find(new Predicate<SkinItem>((skinItem) =>
         {
             return skinItem.item == item;
@@ -196,20 +196,20 @@ public class PlayerPurchaseManager : MonoBehaviour
 
     public List<BallItem> GetBoughtBalls()
     {
-        List<BallItem> ballsItems = new List<BallItem>(GameController.instance.balls);
+        List<BallItem> ballsItems = new List<BallItem>(GameController.Instance.balls);
         List<BallItem> boughtBallsItems = new List<BallItem>();
         boughtBallsItems = ballsItems.FindAll(new Predicate<BallItem>((ballItem) =>
         {
             return itemsIsBought(ballItem.item);
         }));
 
-        boughtBallsItems.Insert(0, GameController.instance.balls[0]);
+        boughtBallsItems.Insert(0, GameController.Instance.balls[0]);
         return boughtBallsItems;
     }
 
     public BallItem GetBallItem(PurchasableItemsForCoins item)
     {
-        List<BallItem> ballItems = new List<BallItem>(GameController.instance.balls);
+        List<BallItem> ballItems = new List<BallItem>(GameController.Instance.balls);
         return ballItems.Find(new Predicate<BallItem>((ballItem) =>
         {
             return ballItem.item == item;

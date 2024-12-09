@@ -26,10 +26,10 @@ public class MagicMachineScript : MonoBehaviour
 
     public void GetPrize()
     {
-        if (PlayerPurchaseManager.instance.coinsAmount < 250 || !canGetPrize)
+        if (PlayerPurchaseManager.Instance.coinsAmount < 250 || !canGetPrize)
         {
 
-            if (PlayerPurchaseManager.instance.coinsAmount < 250)
+            if (PlayerPurchaseManager.Instance.coinsAmount < 250)
                 noMoneyWindow.PlayReverse();
                 
             return;
@@ -38,59 +38,59 @@ public class MagicMachineScript : MonoBehaviour
 
         Effectrplayer.instance.PlayPrizeMachineSound();
         canGetPrize = false;
-        PlayerPurchaseManager.instance.RemoveCoins(250);
+        PlayerPurchaseManager.Instance.RemoveCoins(250);
 
         PlayerPurchaseManager.PurchasableItemsForCoins item = PlayerPurchaseManager.PurchasableItemsForCoins.TigerSkin;
-        if (Random.Range(0, 1000) == 0 && !PlayerPurchaseManager.instance.itemsIsBought(item))
+        if (Random.Range(0, 1000) == 0 && !PlayerPurchaseManager.Instance.itemsIsBought(item))
         {
             showBubbleCase(item);
             return;
         }
 
         item = PlayerPurchaseManager.PurchasableItemsForCoins.NinjaSkin;
-        if (Random.Range(0, 150) == 0 && !PlayerPurchaseManager.instance.itemsIsBought(item))
+        if (Random.Range(0, 150) == 0 && !PlayerPurchaseManager.Instance.itemsIsBought(item))
         {
             showBubbleCase(item);
             return;
         }
 
         item = PlayerPurchaseManager.PurchasableItemsForCoins.ManchesterSkin;
-        if (Random.Range(0, 100) == 0 && !PlayerPurchaseManager.instance.itemsIsBought(item))
+        if (Random.Range(0, 100) == 0 && !PlayerPurchaseManager.Instance.itemsIsBought(item))
         {
             showBubbleCase(item);
             return;
         }
 
         item = PlayerPurchaseManager.PurchasableItemsForCoins.BrazilSkin;
-        if (Random.Range(0, 100) == 0 && !PlayerPurchaseManager.instance.itemsIsBought(item))
+        if (Random.Range(0, 100) == 0 && !PlayerPurchaseManager.Instance.itemsIsBought(item))
         {
             showBubbleCase(item);
             return;
         }
 
         item = PlayerPurchaseManager.PurchasableItemsForCoins.MadridSkin;
-        if (Random.Range(0, 75) == 0 && !PlayerPurchaseManager.instance.itemsIsBought(item))
+        if (Random.Range(0, 75) == 0 && !PlayerPurchaseManager.Instance.itemsIsBought(item))
         {
             showBubbleCase(item);
             return;
         }
 
         item = PlayerPurchaseManager.PurchasableItemsForCoins.RedBall;
-        if (Random.Range(0, 75) == 0 && !PlayerPurchaseManager.instance.itemsIsBought(item))
+        if (Random.Range(0, 75) == 0 && !PlayerPurchaseManager.Instance.itemsIsBought(item))
         {
             showBubbleCase(item);
             return;
         }
 
         item = PlayerPurchaseManager.PurchasableItemsForCoins.BarcelonaSkin;
-        if (Random.Range(0, 50) == 0 && !PlayerPurchaseManager.instance.itemsIsBought(item))
+        if (Random.Range(0, 50) == 0 && !PlayerPurchaseManager.Instance.itemsIsBought(item))
         {
             showBubbleCase(item);
             return;
         }
 
         item = PlayerPurchaseManager.PurchasableItemsForCoins.OrangeBall;
-        if (Random.Range(0, 50) == 0 && !PlayerPurchaseManager.instance.itemsIsBought(item))
+        if (Random.Range(0, 50) == 0 && !PlayerPurchaseManager.Instance.itemsIsBought(item))
         {
             showBubbleCase(item);
             return;
@@ -98,63 +98,63 @@ public class MagicMachineScript : MonoBehaviour
 
 
         item = PlayerPurchaseManager.PurchasableItemsForCoins.PurpleBall;
-        if (Random.Range(0, 50) == 0 && !PlayerPurchaseManager.instance.itemsIsBought(item))
+        if (Random.Range(0, 50) == 0 && !PlayerPurchaseManager.Instance.itemsIsBought(item))
         {
             showBubbleCase(item);
             return;
         }
 
         item = PlayerPurchaseManager.PurchasableItemsForCoins.BlueBall;
-        if (Random.Range(0, 50) == 0 && !PlayerPurchaseManager.instance.itemsIsBought(item))
+        if (Random.Range(0, 50) == 0 && !PlayerPurchaseManager.Instance.itemsIsBought(item))
         {
             showBubbleCase(item);
             return;
         }
 
         item = PlayerPurchaseManager.PurchasableItemsForCoins.LightblueBall;
-        if (Random.Range(0, 50) == 0 && !PlayerPurchaseManager.instance.itemsIsBought(item))
+        if (Random.Range(0, 50) == 0 && !PlayerPurchaseManager.Instance.itemsIsBought(item))
         {
             showBubbleCase(item);
             return;
         }
 
         item = PlayerPurchaseManager.PurchasableItemsForCoins.YellowBall;
-        if (Random.Range(0, 50) == 0 && !PlayerPurchaseManager.instance.itemsIsBought(item))
+        if (Random.Range(0, 50) == 0 && !PlayerPurchaseManager.Instance.itemsIsBought(item))
         {
             showBubbleCase(item);
             return;
         }
 
         item = PlayerPurchaseManager.PurchasableItemsForCoins.GreenBall;
-        if (Random.Range(0, 50) == 0 && !PlayerPurchaseManager.instance.itemsIsBought(item))
+        if (Random.Range(0, 50) == 0 && !PlayerPurchaseManager.Instance.itemsIsBought(item))
         {
             showBubbleCase(item);
             return;
         }
 
         item = PlayerPurchaseManager.PurchasableItemsForCoins.MulanSkin;
-        if (Random.Range(0, 40) == 0 && !PlayerPurchaseManager.instance.itemsIsBought(item))
+        if (Random.Range(0, 40) == 0 && !PlayerPurchaseManager.Instance.itemsIsBought(item))
         {
             showBubbleCase(item);
             return;
         }
 
         item = PlayerPurchaseManager.PurchasableItemsForCoins.MulanSkin;
-        if (Random.Range(0, 30) == 0 && !PlayerPurchaseManager.instance.itemsIsBought(item))
+        if (Random.Range(0, 30) == 0 && !PlayerPurchaseManager.Instance.itemsIsBought(item))
         {
             showBubbleCase(item);
             return;
         }
 
         item = PlayerPurchaseManager.PurchasableItemsForCoins.LiverpoolSkin;
-        if (Random.Range(0, 25) == 0 && !PlayerPurchaseManager.instance.itemsIsBought(item))
+        if (Random.Range(0, 25) == 0 && !PlayerPurchaseManager.Instance.itemsIsBought(item))
         {
             showBubbleCase(item);
             return;
         }
 
         item = PlayerPurchaseManager.PurchasableItemsForCoins.LondonSkin;
-        if (Random.Range(0, 20) == 0 && !PlayerPurchaseManager.instance.itemsIsBought(item))
+        if (Random.Range(0, 20) == 0 && !PlayerPurchaseManager.Instance.itemsIsBought(item))
         {
             showBubbleCase(item);
             return;
@@ -162,21 +162,21 @@ public class MagicMachineScript : MonoBehaviour
 
 
         item = PlayerPurchaseManager.PurchasableItemsForCoins.FulhamSkin;
-        if (Random.Range(0, 15) == 0 && !PlayerPurchaseManager.instance.itemsIsBought(item))
+        if (Random.Range(0, 15) == 0 && !PlayerPurchaseManager.Instance.itemsIsBought(item))
         {
             showBubbleCase(item);
             return;
         }
 
         item = PlayerPurchaseManager.PurchasableItemsForCoins.ParisSkin;
-        if (Random.Range(0, 15) == 0 && !PlayerPurchaseManager.instance.itemsIsBought(item))
+        if (Random.Range(0, 15) == 0 && !PlayerPurchaseManager.Instance.itemsIsBought(item))
         {
             showBubbleCase(item);
             return;
         }
 
         item = PlayerPurchaseManager.PurchasableItemsForCoins.TurinSkin;
-        if (Random.Range(0, 5) == 0 && !PlayerPurchaseManager.instance.itemsIsBought(item))
+        if (Random.Range(0, 5) == 0 && !PlayerPurchaseManager.Instance.itemsIsBought(item))
         {
             showBubbleCase(item);
             return;
@@ -190,7 +190,7 @@ public class MagicMachineScript : MonoBehaviour
     private PlayerPurchaseManager.PurchasableItemsForCoins item;
     public void showBubbleCase(PlayerPurchaseManager.PurchasableItemsForCoins item)
     {
-        PlayerPurchaseManager.instance.BuyItemForCoins(new PlayerPurchaseManager.PurchasableItemsForCoins[] { item }, 0);
+        PlayerPurchaseManager.Instance.BuyItemForCoins(new PlayerPurchaseManager.PurchasableItemsForCoins[] { item }, 0);
         this.item = item;
         money = 0;
         StartCoroutine(DropItem());
@@ -198,7 +198,7 @@ public class MagicMachineScript : MonoBehaviour
 
     public void showBubbleCase(int money)
     {
-        PlayerPurchaseManager.instance.AddCoins(money);
+        PlayerPurchaseManager.Instance.AddCoins(money);
         this.money = money;
         StartCoroutine(DropItem());
     }
@@ -229,7 +229,7 @@ public class MagicMachineScript : MonoBehaviour
         {
             if (item.ToString("g").EndsWith("Skin"))
             {
-                spawnedItem = Instantiate(PlayerPurchaseManager.instance.GetSkinItem(item).uiItem, prizeContainer.transform).transform;
+                spawnedItem = Instantiate(PlayerPurchaseManager.Instance.GetSkinItem(item).uiItem, prizeContainer.transform).transform;
                 spawnedItem.localScale = new Vector3(5, 5, 0f);
                 spawnedItem.localPosition = new Vector2(-31f, 68f);
 
@@ -255,7 +255,7 @@ public class MagicMachineScript : MonoBehaviour
 #if UNITY_EDITOR
                 Debug.Log(item.ToString("g"));
 #endif
-                spawnedItem = Instantiate(PlayerPurchaseManager.instance.GetBallItem(item).uiItem, prizeContainer.transform).transform;
+                spawnedItem = Instantiate(PlayerPurchaseManager.Instance.GetBallItem(item).uiItem, prizeContainer.transform).transform;
                 spawnedItem.localScale = new Vector3(1, 1, 0f);
                 spawnedItem.localPosition = Vector2.zero;
                 _.Find<UI2DSprite>(spawnedItem, "Ball Sprite").depth = 300;

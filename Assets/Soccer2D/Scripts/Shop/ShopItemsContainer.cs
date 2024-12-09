@@ -26,7 +26,7 @@ public class ShopItemsContainer : MonoBehaviour {
             bool allItemsSold = true;
             foreach (PlayerPurchaseManager.PurchasableItemsForCoins item in shopItemScript.items)
             {
-                if (!PlayerPurchaseManager.instance.itemsIsBought(item))
+                if (!PlayerPurchaseManager.Instance.itemsIsBought(item))
                 {
                     allItemsSold = false;
                     shopItemScript.owned = false;

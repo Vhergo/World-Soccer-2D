@@ -93,7 +93,7 @@ public class AppnextHandler : MonoBehaviour {
 		if (rewardedVideo)
 		{
 			rewardedVideo = false;
-			PlayerPurchaseManager.instance.AddCoins(50);
+			PlayerPurchaseManager.Instance.AddCoins(50);
 		}
 	}
 }

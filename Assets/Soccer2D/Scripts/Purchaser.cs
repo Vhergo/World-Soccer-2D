@@ -209,28 +209,28 @@ namespace CompleteProject
             if (String.Equals(args.purchasedProduct.definition.id, product2000Coins, StringComparison.Ordinal))
             {
                 Debug.Log(string.Format("ProcessPurchase: PASS. Product: '{0}'", args.purchasedProduct.definition.id));
-                PlayerPurchaseManager.instance.AddCoins(2000);
+                PlayerPurchaseManager.Instance.AddCoins(2000);
                 Effectrplayer.instance.PlayBuyEffect();
                 buyEffectManager.ShowEffect(_.Find<UIWidget>(_.Find<Transform>(transform, "2000 coins"), "Container"), true);
             }
             else if (String.Equals(args.purchasedProduct.definition.id, product6500Coins, StringComparison.Ordinal))
             {
                 Debug.Log(string.Format("ProcessPurchase: PASS. Product: '{0}'", args.purchasedProduct.definition.id));
-                PlayerPurchaseManager.instance.AddCoins(6500);
+                PlayerPurchaseManager.Instance.AddCoins(6500);
                 Effectrplayer.instance.PlayBuyEffect();
                 buyEffectManager.ShowEffect(_.Find<UIWidget>(_.Find<Transform>(transform, "6500 coins"), "Container"), true);
             }
             else if (String.Equals(args.purchasedProduct.definition.id, product12000Coins, StringComparison.Ordinal))
             {
                 Debug.Log(string.Format("ProcessPurchase: PASS. Product: '{0}'", args.purchasedProduct.definition.id));
-                PlayerPurchaseManager.instance.AddCoins(12000);
+                PlayerPurchaseManager.Instance.AddCoins(12000);
                 Effectrplayer.instance.PlayBuyEffect();
                 buyEffectManager.ShowEffect(_.Find<UIWidget>(_.Find<Transform>(transform, "12000 coins"), "Container"), true);
             }
             else if (String.Equals(args.purchasedProduct.definition.id, product25000Coins, StringComparison.Ordinal))
             {
                 Debug.Log(string.Format("ProcessPurchase: PASS. Product: '{0}'", args.purchasedProduct.definition.id));
-                PlayerPurchaseManager.instance.AddCoins(25000);
+                PlayerPurchaseManager.Instance.AddCoins(25000);
                 Effectrplayer.instance.PlayBuyEffect();
                 buyEffectManager.ShowEffect(_.Find<UIWidget>(_.Find<Transform>(transform, "25000 coins"), "Container"), true);
             }
@@ -238,13 +238,13 @@ namespace CompleteProject
             {
                 Debug.Log(string.Format("ProcessPurchase: PASS. Product: '{0}'", args.purchasedProduct.definition.id));
                 Effectrplayer.instance.PlayBuyEffect();
-                PlayerPurchaseManager.instance.AddCoins(40000);
+                PlayerPurchaseManager.Instance.AddCoins(40000);
                 buyEffectManager.ShowEffect(_.Find<UIWidget>(_.Find<Transform>(transform, "40000 coins"), "Container"), true);
             }
             else if (String.Equals(args.purchasedProduct.definition.id, product75000Coins, StringComparison.Ordinal))
             {
                 Debug.Log(string.Format("ProcessPurchase: PASS. Product: '{0}'", args.purchasedProduct.definition.id));
-                PlayerPurchaseManager.instance.AddCoins(75000);
+                PlayerPurchaseManager.Instance.AddCoins(75000);
                 Effectrplayer.instance.PlayBuyEffect();
                 buyEffectManager.ShowEffect(_.Find<UIWidget>(_.Find<Transform>(transform, "75000 coins"), "Container"), true);
             }

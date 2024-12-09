@@ -39,7 +39,7 @@ public class ShopItemScript : MonoBehaviour {
 
     void OnClick()
     {
-        if (PlayerPurchaseManager.instance.coinsAmount < coinsCost)
+        if (PlayerPurchaseManager.Instance.coinsAmount < coinsCost)
         {
             GetComponentInParent<BuyEffectManager>().noMoneyEffect.PlayReverse();
             return;
@@ -49,7 +49,7 @@ public class ShopItemScript : MonoBehaviour {
             return;
 
         Effectrplayer.instance.PlayBuyEffect();
-        PlayerPurchaseManager.instance.BuyItemForCoins(items, coinsCost);
+        PlayerPurchaseManager.Instance.BuyItemForCoins(items, coinsCost);
         for(int i = 0; i < items.Length; i++)
         {
             Debug.Log(items[i].ToString("g"));
