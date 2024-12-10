@@ -89,7 +89,6 @@ public class PlayerPurchaseManager : MonoBehaviour
 
     private void Start()
     {
-
         string itemsString = ZPlayerPrefs.GetString(boughtItemsField, "");
         if (!string.IsNullOrEmpty(itemsString))
             boughtItems = JsonUtility.FromJson<BoughtItemsContainer>(itemsString).boughtItems;
@@ -107,7 +106,6 @@ public class PlayerPurchaseManager : MonoBehaviour
             }
             else
                 return 0;
-            
         }
     }
 

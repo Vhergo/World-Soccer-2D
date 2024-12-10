@@ -12,10 +12,10 @@ public class CameraScript : MonoBehaviour {
     {
         GameHandler.GameController.OnGameEnd += GameController_OnGameEnd;
         GameHandler.GameController.OnGameStart += GameController_OnGameStart;
-        GameHandler.GameController.OnNextRaund += GameController_OnNextRaund;
+        GameHandler.GameController.OnNextRound += GameController_OnNextRound;
     }
 
-    void GameController_OnNextRaund()
+    void GameController_OnNextRound()
     {
         Target = GameHandler.Ball;
     }

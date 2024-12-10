@@ -116,7 +116,7 @@ public class GameController : MonoBehaviour {
 
     public event EventHandler OnGameEnd;
     public event EventHandler OnGameStart;
-    public event EventHandler OnNextRaund;
+    public event EventHandler OnNextRound;
 
     public event EventHandler OnFiveGoal;
     #endregion
@@ -170,7 +170,7 @@ public class GameController : MonoBehaviour {
                 GameObject.Find("PausePanel").GetComponent<TweenAlpha>().PlayReverse();
                 GameObject.Find("BlueJumpButton").GetComponent<TweenPosition>().PlayReverse();
                 GameObject.Find("RedJumpButton").GetComponent<TweenPosition>().PlayReverse();
-                GameObject.Find("MenuButton").GetComponent<TweenPosition>().PlayReverse();
+                GameObject.Find("ReturnToMenuButton").GetComponent<TweenPosition>().PlayReverse();
                 GameObject.Find("MenuButton4Players").GetComponent<TweenPosition>().PlayReverse();
                 GameObject.Find("BlueJumpButton1").GetComponent<TweenPosition>().PlayReverse();
                 GameObject.Find("RedJumpButton1").GetComponent<TweenPosition>().PlayReverse();
@@ -184,7 +184,7 @@ public class GameController : MonoBehaviour {
                 GameObject.Find("PausePanel").GetComponent<TweenAlpha>().PlayForward();
                 GameObject.Find("BlueJumpButton").GetComponent<TweenPosition>().PlayForward();
                 GameObject.Find("RedJumpButton").GetComponent<TweenPosition>().PlayForward();
-                GameObject.Find("MenuButton").GetComponent<TweenPosition>().PlayForward();
+                GameObject.Find("ReturnToMenuButton").GetComponent<TweenPosition>().PlayForward();
                 GameObject.Find("MenuButton4Players").GetComponent<TweenPosition>().PlayForward();
 
                 GameObject.Find("BlueJumpButton1").GetComponent<TweenPosition>().PlayForward();
@@ -225,7 +225,7 @@ public class GameController : MonoBehaviour {
     public void OnPlayer1JumpRelease1() => OnP1JumpRelease1.Invoke();
     void OnGameEndVoid() => OnGameEnd.Invoke();
     void OnGameStartVoid() => OnGameStart.Invoke();
-    void OnNextRoundVoid() => OnNextRaund.Invoke();
+    void OnNextRoundVoid() => OnNextRound.Invoke();
     public void OnPlayer2JumpPress() => OnP2JumpPress.Invoke();
     public void OnPlayer2JumpRelease() => OnP2JumpRelease.Invoke();
     public void OnPlayer2JumpPress1() => OnP2JumpPress1.Invoke();
@@ -302,6 +302,27 @@ public class GameController : MonoBehaviour {
         ShowFourPlayerButtons(false);
         GoPlay();
     }
+    public void PlayFourPlayer()
+    {
+        gameMode = GameMode.FourPlayer;
+
+        ShowFourPlayerButtons(true);
+
+        GameObject.Find("BlueJumpButton1").GetComponent<TweenAlpha>().PlayForward();
+        GameObject.Find("RedJumpButton1").GetComponent<TweenAlpha>().PlayForward();
+
+        GameObject.Find("BlueJumpButton1").GetComponent<UISprite>().leftAnchor.Set(1f, -GameObject.Find("RedJumpButton1").GetComponent<UISprite>().rightAnchor.absolute);
+        GameObject.Find("BlueJumpButton1").GetComponent<UISprite>().rightAnchor.Set(1f, -GameObject.Find("RedJumpButton1").GetComponent<UISprite>().leftAnchor.absolute);
+
+        GameObject.Find("BlueJumpButton1").GetComponent<TweenPosition>().from.x = (GameObject.Find("BlueJumpButton").GetComponent<TweenPosition>().from.x - 182.71f);
+        GameObject.Find("BlueJumpButton1").GetComponent<TweenPosition>().to.x = GameObject.Find("BlueJumpButton").GetComponent<TweenPosition>().to.x;
+
+        inMatchCurrentTeamFlag.gameObject.SetActive(false);
+        inMatchOpponentTeamFlag.gameObject.SetActive(false);
+
+        GoPlay();
+    }
+
     public void PlayOnePlayerPlatform()
     {
         inMatchCurrentTeamFlag.gameObject.SetActive(false);
@@ -354,37 +375,17 @@ public class GameController : MonoBehaviour {
 
         GoPlay();
     }
-    public void PlayFourPlayer()
-    {
-        gameMode = GameMode.FourPlayer;
-
-        ShowFourPlayerButtons(true);
-
-        GameObject.Find("BlueJumpButton1").GetComponent<TweenAlpha>().PlayForward();
-        GameObject.Find("RedJumpButton1").GetComponent<TweenAlpha>().PlayForward();
-
-        GameObject.Find("BlueJumpButton1").GetComponent<UISprite>().leftAnchor.Set(1f, -GameObject.Find("RedJumpButton1").GetComponent<UISprite>().rightAnchor.absolute);
-        GameObject.Find("BlueJumpButton1").GetComponent<UISprite>().rightAnchor.Set(1f, -GameObject.Find("RedJumpButton1").GetComponent<UISprite>().leftAnchor.absolute);
-
-        GameObject.Find("BlueJumpButton1").GetComponent<TweenPosition>().from.x = (GameObject.Find("BlueJumpButton").GetComponent<TweenPosition>().from.x - 182.71f);
-        GameObject.Find("BlueJumpButton1").GetComponent<TweenPosition>().to.x = GameObject.Find("BlueJumpButton").GetComponent<TweenPosition>().to.x;
-
-        inMatchCurrentTeamFlag.gameObject.SetActive(false);
-        inMatchOpponentTeamFlag.gameObject.SetActive(false);
-
-        GoPlay();
-    }
     public void ShowFourPlayerButtons(bool state)
     {
         if (state) {
             GameObject.Find("BlueJumpButton2").GetComponent<TweenAlpha>().PlayReverse();
             GameObject.Find("RedJumpButton2").GetComponent<TweenAlpha>().PlayReverse();
-            GameObject.Find("MenuButton").GetComponent<TweenAlpha>().PlayForward();
+            GameObject.Find("ReturnToMenuButton").GetComponent<TweenAlpha>().PlayForward();
             GameObject.Find("MenuButton4Players").GetComponent<TweenAlpha>().PlayReverse();
         } else {
             GameObject.Find("BlueJumpButton2").GetComponent<TweenAlpha>().PlayForward();
             GameObject.Find("RedJumpButton2").GetComponent<TweenAlpha>().PlayForward();
-            GameObject.Find("MenuButton").GetComponent<TweenAlpha>().PlayReverse();
+            GameObject.Find("ReturnToMenuButton").GetComponent<TweenAlpha>().PlayReverse();
             GameObject.Find("MenuButton4Players").GetComponent<TweenAlpha>().PlayForward();
         }
     }
@@ -480,7 +481,7 @@ public class GameController : MonoBehaviour {
             Time.timeScale = 0.2f;
 
 
-            GameObject.Find("MenuButton").GetComponent<TweenPosition>().PlayForward();
+            GameObject.Find("ReturnToMenuButton").GetComponent<TweenPosition>().PlayForward();
             GameObject.Find("MenuButton4Players").GetComponent<TweenPosition>().PlayForward();
             GameObject.Find("BlueGoal").GetComponent<TweenPosition>().ResetToBeginning();
             GameObject.Find("BlueGoal").GetComponent<TweenPosition>().Toggle();
@@ -500,7 +501,7 @@ public class GameController : MonoBehaviour {
             totalGoal++;
             Time.timeScale = 0.2f;
 
-            GameObject.Find("MenuButton").GetComponent<TweenPosition>().PlayForward();
+            GameObject.Find("ReturnToMenuButton").GetComponent<TweenPosition>().PlayForward();
             GameObject.Find("MenuButton4Players").GetComponent<TweenPosition>().PlayForward();
             GameObject.Find("RedGoal").GetComponent<TweenPosition>().ResetToBeginning();
             GameObject.Find("RedGoal").GetComponent<TweenPosition>().Toggle();
@@ -634,7 +635,7 @@ public class GameController : MonoBehaviour {
 
         GameObject.Find("BlueJumpButton1").GetComponent<TweenPosition>().PlayForward();
         GameObject.Find("RedJumpButton1").GetComponent<TweenPosition>().PlayForward();
-        GameObject.Find("MenuButton").GetComponent<TweenPosition>().PlayForward();
+        GameObject.Find("ReturnToMenuButton").GetComponent<TweenPosition>().PlayForward();
         GameObject.Find("MenuButton4Players").GetComponent<TweenPosition>().PlayForward();
         GameObject.Find("BlueGoal").GetComponent<TweenPosition>().tweenFactor = 1;
     }
@@ -650,7 +651,7 @@ public class GameController : MonoBehaviour {
 
         GameObject.Find("BlueJumpButton1").GetComponent<TweenPosition>().PlayForward();
         GameObject.Find("RedJumpButton1").GetComponent<TweenPosition>().PlayForward();
-        GameObject.Find("MenuButton").GetComponent<TweenPosition>().PlayForward();
+        GameObject.Find("ReturnToMenuButton").GetComponent<TweenPosition>().PlayForward();
         GameObject.Find("MenuButton4Players").GetComponent<TweenPosition>().PlayForward();
         GameObject.Find("RedGoal").GetComponent<TweenPosition>().tweenFactor = 1;
     }
@@ -675,7 +676,7 @@ public class GameController : MonoBehaviour {
                 if (ballRedOrBlue) ball.transform.position = new Vector3(-2.3f, 4, 0);
                 if (!ballRedOrBlue) ball.transform.position = new Vector3(2.3f, 4, 0);
 
-                GameObject.Find("MenuButton").GetComponent<TweenPosition>().PlayReverse();
+                GameObject.Find("ReturnToMenuButton").GetComponent<TweenPosition>().PlayReverse();
                 GameObject.Find("MenuButton4Players").GetComponent<TweenPosition>().PlayReverse();
                 OnNextRoundVoid();
             }
@@ -686,7 +687,7 @@ public class GameController : MonoBehaviour {
     IEnumerator Initialization()
     {
         yield return new WaitForSeconds(1);
-        GameObject.Find("MenuButton").GetComponent<TweenPosition>().from.x = GameObject.Find("MenuButton").transform.localPosition.x;
+        GameObject.Find("ReturnToMenuButton").GetComponent<TweenPosition>().from.x = GameObject.Find("ReturnToMenuButton").transform.localPosition.x;
         GameObject.Find("MenuButton4Players").GetComponent<TweenPosition>().from.y = GameObject.Find("MenuButton4Players").transform.localPosition.y;
         GameObject.Find("BlueJumpButton").GetComponent<TweenPosition>().from.x = GameObject.Find("BlueJumpButton").transform.localPosition.x;
         GameObject.Find("RedJumpButton").GetComponent<TweenPosition>().from.x = GameObject.Find("RedJumpButton").transform.localPosition.x;
