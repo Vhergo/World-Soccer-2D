@@ -23,7 +23,7 @@ public class GameController : MonoBehaviour {
     public GameObject menuEndessToggleButton;
     public int endScore;
     public int runeSpawnTime = 30;
-    
+    public UILabel scoreToWinDisplay;
 
     public bool randomOutfits;
 
@@ -86,6 +86,10 @@ public class GameController : MonoBehaviour {
     bool mIgnoreUp = false;
     bool mIsInput = false;
     bool mPress = false;
+
+    [SerializeField] private GameObject guidePanel;
+    [SerializeField] private GameObject creditsPanel;
+    [SerializeField] private UILabel endScoreNotification;
     // Use this for initialization
     #endregion
 
@@ -119,6 +123,8 @@ public class GameController : MonoBehaviour {
     public event EventHandler OnNextRound;
 
     public event EventHandler OnFiveGoal;
+
+
     #endregion
 
 
@@ -151,14 +157,46 @@ public class GameController : MonoBehaviour {
         {
             isEndless = true;
             endScore = 10000;
+            UpdateEndScoreDisplay();
         }
         else
         {
             isEndless = false;
+            UpdateEndScoreDisplay();
         }
     }
     #endregion
 
+
+    public void IncreaseEndScore()
+    {
+        Debug.Log("End Score Increased");
+        endScore++;
+        UpdateEndScoreDisplay();
+    }
+    public void DecreaseEndScore()
+    {
+        Debug.Log("End Score Decreased");
+        endScore = Mathf.Max(1, endScore - 1);
+        UpdateEndScoreDisplay();
+    }
+    private void UpdateEndScoreDisplay()
+    {
+        scoreToWinDisplay.text = endScore.ToString();
+        endScoreNotification.text = "First to " + endScore + " wins!";
+    }
+
+    public void ToggleGuidePanel()
+    {
+        guidePanel.SetActive(!guidePanel.activeSelf);
+        if (guidePanel.activeSelf) creditsPanel.SetActive(false);
+    }
+
+    public void ToggleCreditsPanel()
+    {
+        creditsPanel.SetActive(!creditsPanel.activeSelf);
+        if (creditsPanel.activeSelf) guidePanel.SetActive(false);
+    }
 
     void Update()
     {
@@ -219,17 +257,17 @@ public class GameController : MonoBehaviour {
     }
 
     #region EVENT INVOCATION
-    public void OnPlayer1JumpPress() => OnP1JumpPress.Invoke();
-    public void OnPlayer1JumpRelease() => OnP1JumpRelease.Invoke();
-    public void OnPlayer1JumpPress1() => OnP1JumpPress1.Invoke();
-    public void OnPlayer1JumpRelease1() => OnP1JumpRelease1.Invoke();
+    public void OnPlayer1Jump1Press() => OnP1JumpPress.Invoke();
+    public void OnPlayer1Jump1Release() => OnP1JumpRelease.Invoke();
+    public void OnPlayer1Jump1Press1() => OnP1JumpPress1.Invoke();
+    public void OnPlayer1Jump1Release1() => OnP1JumpRelease1.Invoke();
     void OnGameEndVoid() => OnGameEnd.Invoke();
     void OnGameStartVoid() => OnGameStart.Invoke();
     void OnNextRoundVoid() => OnNextRound.Invoke();
-    public void OnPlayer2JumpPress() => OnP2JumpPress.Invoke();
-    public void OnPlayer2JumpRelease() => OnP2JumpRelease.Invoke();
-    public void OnPlayer2JumpPress1() => OnP2JumpPress1.Invoke();
-    public void OnPlayer2JumpRelease1() => OnP2JumpRelease1.Invoke();
+    public void OnPlayer2Jump1Press() => OnP2JumpPress.Invoke();
+    public void OnPlayer2Jump1Release() => OnP2JumpRelease.Invoke();
+    public void OnPlayer2Jump1Press1() => OnP2JumpPress1.Invoke();
+    public void OnPlayer2Jump1Release1() => OnP2JumpRelease1.Invoke();
     #endregion
 
     #region PLAYMODE SELECTION

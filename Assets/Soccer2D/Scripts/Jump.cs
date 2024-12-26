@@ -118,11 +118,20 @@ public class Jump : MonoBehaviour
             {
                 GameHandler.GameController.OnP1JumpPress1 -= new EventHandler(ButtonJumpPress1);
                 GameHandler.GameController.OnP1JumpRelease1 -= new EventHandler(ButtonJumpRelease1);
+
+                InputHandler.OnPlayer1Jump2Press += ButtonJumpPress1;
+                InputHandler.OnPlayer1Jump2Release += ButtonJumpRelease1;
             }
             else
             {
                 GameHandler.GameController.OnP1JumpPress -= new EventHandler(ButtonJumpPress);
                 GameHandler.GameController.OnP1JumpRelease -= new EventHandler(ButtonJumpRelease);
+
+                InputHandler.OnPlayer1Jump1Press += ButtonJumpPress1;
+                InputHandler.OnPlayer1Jump1Release += ButtonJumpRelease1;
+
+                InputHandler.OnPlayer1Jump2Press += ButtonJumpPress;
+                InputHandler.OnPlayer1Jump2Release += ButtonJumpRelease;
             }
         }
         if (player == GameController.Player.Blue)
@@ -131,12 +140,21 @@ public class Jump : MonoBehaviour
             {
                 GameHandler.GameController.OnP2JumpPress1 -= new EventHandler(ButtonJumpPress1);
                 GameHandler.GameController.OnP2JumpRelease1 -= new EventHandler(ButtonJumpRelease1);
+
+                InputHandler.OnPlayer2Jump2Press += ButtonJumpPress1;
+                InputHandler.OnPlayer2Jump2Release += ButtonJumpRelease1;
             }
             else
             {
 
                 GameHandler.GameController.OnP2JumpPress -= new EventHandler(ButtonJumpPress);
                 GameHandler.GameController.OnP2JumpRelease -= new EventHandler(ButtonJumpRelease);
+
+                InputHandler.OnPlayer2Jump1Press += ButtonJumpPress1;
+                InputHandler.OnPlayer2Jump1Release += ButtonJumpRelease1;
+
+                InputHandler.OnPlayer2Jump2Press += ButtonJumpPress;
+                InputHandler.OnPlayer2Jump2Release += ButtonJumpRelease;
             }
         }
     }
@@ -162,14 +180,20 @@ public class Jump : MonoBehaviour
             {
                 GameHandler.GameController.OnP1JumpPress1 += new EventHandler(ButtonJumpPress1);
                 GameHandler.GameController.OnP1JumpRelease1 += new EventHandler(ButtonJumpRelease1);
+
+                InputHandler.OnPlayer1Jump2Press += ButtonJumpPress1;
+                InputHandler.OnPlayer1Jump2Release += ButtonJumpRelease1;
             }
             else
             {
                 GameHandler.GameController.OnP1JumpPress += new EventHandler(ButtonJumpPress);
                 GameHandler.GameController.OnP1JumpRelease += new EventHandler(ButtonJumpRelease);
 
-                InputHandler.OnPlayer1JumpPress += ButtonJumpPress1;
-                InputHandler.OnPlayer1JumpRelease += ButtonJumpRelease1;
+                InputHandler.OnPlayer1Jump1Press += ButtonJumpPress1;
+                InputHandler.OnPlayer1Jump1Release += ButtonJumpRelease1;
+
+                InputHandler.OnPlayer1Jump2Press += ButtonJumpPress;
+                InputHandler.OnPlayer1Jump2Release += ButtonJumpRelease;
             }
         }
         if (player == GameController.Player.Blue)
@@ -178,20 +202,26 @@ public class Jump : MonoBehaviour
             {
                 GameHandler.GameController.OnP2JumpPress1 += new EventHandler(ButtonJumpPress1);
                 GameHandler.GameController.OnP2JumpRelease1 += new EventHandler(ButtonJumpRelease1);
+
+                InputHandler.OnPlayer2Jump2Press += ButtonJumpPress1;
+                InputHandler.OnPlayer2Jump2Release += ButtonJumpRelease1;
             }
             else
             {
                 GameHandler.GameController.OnP2JumpPress += new EventHandler(ButtonJumpPress);
                 GameHandler.GameController.OnP2JumpRelease += new EventHandler(ButtonJumpRelease);
 
-                InputHandler.OnPlayer2JumpPress += ButtonJumpPress1;
-                InputHandler.OnPlayer2JumpRelease += ButtonJumpRelease1;
+                InputHandler.OnPlayer2Jump1Press += ButtonJumpPress1;
+                InputHandler.OnPlayer2Jump1Release += ButtonJumpRelease1;
+
+                InputHandler.OnPlayer2Jump2Press += ButtonJumpPress;
+                InputHandler.OnPlayer2Jump2Release += ButtonJumpRelease;
             }
         }
 
     }
 
-    void ButtonJumpPress()
+    void ButtonJumpPress() // GOALKEEPER
     {
         if (twoButtonControl)
         {
@@ -201,7 +231,7 @@ public class Jump : MonoBehaviour
         else
             TekmeAt();
     }
-    void ButtonJumpRelease()
+    void ButtonJumpRelease() // GOALKEEPER
     {
         if (twoButtonControl)
         {
